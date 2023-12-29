@@ -4,7 +4,8 @@ import './styles.css';
 function App() {
   return (
     <>
-      Hello World
+      <p className=" bg-slate-100 text-gray-500">Hello World</p>
+
     </>
   );
 }

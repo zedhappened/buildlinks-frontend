@@ -1,11 +1,13 @@
-
-import './styles.css';
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <p className=" bg-slate-100 text-gray-500">Hello World</p>
-
+      Header
+      <main className="">
+        <Outlet />
+      </main>
+      Footer
     </>
   );
 }

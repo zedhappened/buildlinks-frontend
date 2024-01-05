@@ -1,3 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Merriweather:wght@700;900&family=Roboto:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  transition: 200ms ease-in-out;
+  box-sizing: border-box;
+}
+
+.animated-background {
+  min-height: 100vh;
+  background-image: url("assets/images/animated-background.svg");
+  background-size: cover;
+}

@@ -10,6 +10,6 @@
 
 .animated-background {
   min-height: 100vh;
-  background-image: url("assets/images/animated-background.svg");
+  background-image: url("assets/svgs/animated-background.svg");
   background-size: cover;
 }

@@ -3,9 +3,10 @@ import React from "react";
 
 import Home from "../pages/user/Home";
 import Categories from "../pages/user/Categories";
-import UserLayout from "../layouts/UserLayout";
-import AdminLayout from "../layouts/AdminLayout";
+import Spinner from "../spinner";
 const ErrorPage = React.lazy(() => import("../error-page"));
+const UserLayout = React.lazy(() => import("../layouts/UserLayout"));
+const AdminLayout = React.lazy(() => import("../layouts/AdminLayout"));
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                element: <Home />,
+            },
+            {
+                path: "sign-in",
                 element: <Home />,
             },
             {
@@ -37,6 +42,11 @@ const router = createBrowserRouter([
                 element: <Categories />,
             },
         ]
+    },
+    {
+        path: "loading",
+        element: <Spinner />,
+        errorElement: <ErrorPage />,
     },
 ]);
 

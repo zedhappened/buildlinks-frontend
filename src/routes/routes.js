@@ -4,6 +4,11 @@ import React from "react";
 import Home from "../pages/user/Home";
 import Categories from "../pages/user/Categories";
 import Spinner from "../spinner";
+import Dashboard from "../pages/admin/Dashboard";
+import AdminCategories from "../pages/admin/Categories/AdminCategories";
+import AdminOrders from "../pages/admin/Orders/AdminOrders";
+import AdminProducts from "../pages/admin/Products/AdminProducts";
+import AdminSettings from "../pages/admin/Settings/AdminSettings";
 const ErrorPage = React.lazy(() => import("../error-page"));
 const UserLayout = React.lazy(() => import("../layouts/UserLayout"));
 const AdminLayout = React.lazy(() => import("../layouts/AdminLayout"));
@@ -35,11 +40,23 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home />,
+                element: <Dashboard />,
+            },
+            {
+                path: "orders",
+                element: <AdminOrders />,
+            },
+            {
+                path: "products",
+                element: <AdminProducts />,
             },
             {
                 path: "categories",
-                element: <Categories />,
+                element: <AdminCategories />,
+            },
+            {
+                path: "settings",
+                element: <AdminSettings />,
             },
         ]
     },

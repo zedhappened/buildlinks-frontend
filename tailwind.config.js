@@ -15,6 +15,7 @@ module.exports = {
         secondaryHover: '#333333',
         accent: '#FFC100',
         neutral: '#EEF0F2',
+        dull: '#f4f6f7',
       }
     },
   },

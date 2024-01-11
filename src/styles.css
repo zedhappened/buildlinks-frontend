@@ -9,6 +9,18 @@
   }
 }
 
+@layer components {
+  .nav-link {
+    @apply px-2 py-1 border-b border-secondary flex flex-row items-center hover:text-secondaryHover;
+  }
+  .nav-link-active {
+    @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-primary;
+  }
+  .nav-link-pending {
+    @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-secondary;
+  }
+}
+
 .animated-bg {
   min-height: 100vh;
   background-image: url("assets/svgs/animated-background.svg");

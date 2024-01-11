@@ -12,13 +12,13 @@ const UserNavbar = () => {
                 </Link>
             </div>
 
-            <div className="basis-4/5 flex flex-col">
+            <div className="basis-4/5 flex-col hidden lg:flex">
 
                 <div className="basis-1/4 flex flex-row-reverse py-1 text-sm">
 
                     <div className='flex flex-row gap-x-4 px-8'>
                         <Link to={'/sign-in'} className="text-red-300 hover:underline">Login</Link>
-                        <Link to={'/sign-up'} className="text-red-300 hover:underline">Register</Link>
+                        <Link to={'/sign-in?create=true'} className="text-red-300 hover:underline">Register</Link>
                         <Link to={'/about-us'} className=" text-stone-400 hover:underline">About us</Link>
                         <Link to={'/admin'} className=" text-stone-400 hover:underline">Admin Panel</Link>
                     </div>

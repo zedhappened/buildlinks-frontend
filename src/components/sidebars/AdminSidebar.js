@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom'
 
 const AdminSidebar = ({ show }) => {
     return (
-        <div className={'absolute z-10 top-20 left-0 bottom-0 bg-neutral border-r-2 border-secondary shadow-inner w-0 md:w-64 transition-all duration-300' + (show ? " !w-64" : "")}>
-            <nav className={'flex flex-col gap-3 text-lg font-semibold p-4 text-secondary invisible md:visible delay-100' + (show ? " !visible" : "")}>
+        <div className={'absolute z-10 top-20 left-0 bottom-0 bg-secondaryHover border-r-2 shadow-inner w-0 md:w-64 transition-all duration-400 delay-200' + (show ? " !w-64" : "")}>
+            <nav className={'flex flex-col gap-3 text-lg font-semibold p-4 text-secondary invisible md:visible delay-0' + (show ? " !visible !delay-300" : "")}>
                 <NavLink className={({ isActive, isPending }) =>
                     isPending ? "nav-link-pending" : isActive ? "nav-link-active" : "nav-link"
                 } to={'orders'} >

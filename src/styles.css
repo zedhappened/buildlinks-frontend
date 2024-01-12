@@ -11,10 +11,10 @@
 
 @layer components {
   .nav-link {
-    @apply px-2 py-1 border-b border-secondary flex flex-row items-center hover:text-secondaryHover;
+    @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-neutral hover:border-primary transition-all;
   }
   .nav-link-active {
-    @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-primary;
+    @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-primary hover:border-primary;
   }
   .nav-link-pending {
     @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-secondary;

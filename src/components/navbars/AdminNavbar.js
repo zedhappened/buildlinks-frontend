@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const AdminNavbar = ({ setShow, show }) => {
     return (
-        <header className="relative w-full h-20 flex flex-row bg-secondary z-20 border-b-2 border-secondaryHover shadow-lg">
+        <header className="relative w-full h-20 flex flex-row bg-secondary z-20 shadow-lg">
 
             <div className="basis-5/6 hidden md:flex flex-row px-24 items-end py-4">
                 <Link to={'/admin'} className='text-2xl font-bold text-neutral' >Buildlinks Admin Panel</Link>
@@ -22,15 +22,15 @@ const AdminNavbar = ({ setShow, show }) => {
                 </button>
             </div>
 
-            <div className="md:basis-1/6 basis-5/6 flex flex-row-reverse mt-2 items-center px-4 md:px-12 gap-x-4 md:gap-x-8 text-sm md:text-md font-bold text-red-300" >
+            <div className="md:basis-1/6 basis-5/6 flex flex-row-reverse mt-2 items-center px-4 md:px-12 gap-x-4 md:gap-x-8 text-sm md:text-md font-bold text-red-400" >
 
-                <Link to={'/'} className='flex flex-row items-center gap-2 hover:text-red-400' >
+                <Link to={'/'} className='flex flex-row items-center gap-2 hover:text-primary' >
                     Exit <FontAwesomeIcon icon={faRightFromBracket} />
                 </Link>
 
-                <p className='flex flex-row items-center gap-2 hover:text-red-400' >
+                <button type='button' className='flex flex-row items-center gap-2 hover:text-primary' >
                     Logout <FontAwesomeIcon icon={faUser} />
-                </p>
+                </button>
 
             </div>
 

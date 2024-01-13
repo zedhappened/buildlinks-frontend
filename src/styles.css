@@ -19,6 +19,13 @@
   .nav-link-pending {
     @apply px-2 py-1 border-b border-secondary flex flex-row items-center text-secondary;
   }
+
+  .btn-primary {
+    @apply bg-primary hover:bg-primaryHover;
+  }
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondaryHover;
+  }
 }
 
 .animated-bg {

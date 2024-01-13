@@ -1,15 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
 import React from "react";
+import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../pages/user/Home";
-import Categories from "../pages/user/Categories";
-import Spinner from "../spinner";
-import Dashboard from "../pages/admin/Dashboard";
 import AdminCategories from "../pages/admin/Categories/AdminCategories";
+import Dashboard from "../pages/admin/Dashboard";
 import AdminOrders from "../pages/admin/Orders/AdminOrders";
 import AdminProducts from "../pages/admin/Products/AdminProducts";
 import AdminSettings from "../pages/admin/Settings/AdminSettings";
-import Login from "../pages/user/Login";
+import Categories from "../pages/user/Categories";
+import Home from "../pages/user/Home";
+import Login, { loginAction } from "../pages/user/Login";
+import Spinner from "../spinner";
+
 const ErrorPage = React.lazy(() => import("../error-page"));
 const UserLayout = React.lazy(() => import("../layouts/UserLayout"));
 const AdminLayout = React.lazy(() => import("../layouts/AdminLayout"));
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
             {
                 path: "sign-in",
                 element: <Login />,
+                action: loginAction,
             },
             {
                 path: "categories",

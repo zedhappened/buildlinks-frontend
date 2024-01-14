@@ -5,5 +5,5 @@ const backend = axios.create({
     timeout: 1000,
 });
 
-export const signIn = (data) => backend.post(`/user/sign-in`, data);
-export const signUp = (data) => backend.post(`/user/sign-up`, data);
+export const signInAPI = (data) => backend.post(`/user/sign-in`, data);
+export const signUpAPI = (data) => backend.post(`/user/sign-up`, data);

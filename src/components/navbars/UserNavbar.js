@@ -1,9 +1,13 @@
 import { faCartShopping, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { signOut } from '../../features/userSlice'
 
 const UserNavbar = () => {
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     return (
         <header className="w-full h-20 flex flex-row bg-secondary mb-10">
             <div className="basis-1/5 flex mt-2 justify-center" >
@@ -17,10 +21,18 @@ const UserNavbar = () => {
                 <div className="basis-1/4 flex flex-row-reverse py-1 text-sm">
 
                     <div className='flex flex-row gap-x-4 px-8'>
-                        <Link to={'/sign-in'} className="text-red-300 hover:underline">Login</Link>
-                        <Link to={'/sign-in?create=true'} className="text-red-300 hover:underline">Register</Link>
+                        {user?.id ? (
+                            <p onClick={() => { dispatch(signOut()) }} className="text-red-300 hover:underline cursor-pointer">Logout</p>
+                        ) : (
+                            <>
+                                <Link to={'/sign-in'} className="text-red-300 hover:underline">Login</Link>
+                                <Link to={'/sign-in?create=true'} className="text-red-300 hover:underline">Register</Link>
+                            </>
+                        )}
                         <Link to={'/about-us'} className=" text-stone-400 hover:underline">About us</Link>
-                        <Link to={'/admin'} className=" text-stone-400 hover:underline">Admin Panel</Link>
+                        {user?.roles?.includes('admin') &&
+                            <Link to={'/admin'} className=" text-stone-400 hover:underline">Admin Panel</Link>
+                        }
                     </div>
 
                     <div className='flex flex-row gap-x-4 border-r-2 border-stone-800 text-stone-400 px-4'>
@@ -37,7 +49,7 @@ const UserNavbar = () => {
                 </div>
             </div>
 
-        </header>
+        </header >
     )
 }
 

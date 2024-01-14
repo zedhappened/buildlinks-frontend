@@ -1,16 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState: { data: JSON.parse(localStorage.getItem('User')) } ?? null,
+    initialState: { ...JSON.parse(localStorage.getItem('buiildlinks-user')) } ?? {},
     reducers: {
         signIn: (state, action) => {
-            state.data = { ...action.payload }
-            localStorage.setItem('User', JSON.stringify(action.payload))
+            state.accessToken = action.payload.accessToken;
+            state.id = action.payload.user;
+            state.roles = action.payload.roles;
+            localStorage.setItem('buiildlinks-user', JSON.stringify(state))
         },
         signOut: state => {
-            state = null
-            localStorage.removeItem('User')
+            for (const key in state) {
+                delete state[key];
+            }
+            localStorage.removeItem('buiildlinks-user')
         },
     }
 })

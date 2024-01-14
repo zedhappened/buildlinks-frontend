@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { Form, useActionData, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, useActionData, useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from "react-toastify";
 import { signInAPI, signUpAPI } from '../../api/api';
 import Button from '../../components/button/Button';
 import Card from '../../components/card/Card';
 import Input from '../../components/input/Input';
-import { toast } from "react-toastify"
-import { useDispatch } from 'react-redux';
 import { signIn } from '../../features/userSlice';
-
 
 export const loginAction = async ({ params, request }) => {
     const formData = await request.formData();
@@ -46,12 +45,23 @@ const Login = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const response = useActionData();
-    const dispatch = useDispatch()
-    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const user = useSelector(state => state.user);
+
     const create = searchParams.get('create') === "true";
 
     useEffect(() => {
-        if(response && !response?.error){
+        if (user?.id) {
+            if (user?.roles.includes("admin"))
+                navigate('/admin');
+            else
+                navigate('/');
+        }
+    }, [user, navigate])
+
+    useEffect(() => {
+        if (response && !response?.error) {
             dispatch(signIn(response))
         }
     }, [dispatch, response])
@@ -89,7 +99,6 @@ const Login = () => {
                         </Card>
                     </Form>
                 )}
-            {console.log(response)}
         </>
     )
 }

@@ -1,9 +1,13 @@
 import { faBars, faRightFromBracket, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { signOut } from '../../features/userSlice'
 
 const AdminNavbar = ({ setShow, show }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     return (
         <header className="relative w-full h-20 flex flex-row bg-secondary z-20 shadow-lg">
 
@@ -28,7 +32,7 @@ const AdminNavbar = ({ setShow, show }) => {
                     Exit <FontAwesomeIcon icon={faRightFromBracket} />
                 </Link>
 
-                <button type='button' className='flex flex-row items-center gap-2 hover:text-primary' >
+                <button type='button' onClick={() => { dispatch(signOut()); navigate('/') }} className='flex flex-row items-center gap-2 hover:text-primary' >
                     Logout <FontAwesomeIcon icon={faUser} />
                 </button>
 

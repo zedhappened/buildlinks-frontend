@@ -8,6 +8,7 @@ export const userSlice = createSlice({
             state.accessToken = action.payload.accessToken;
             state.id = action.payload.user;
             state.roles = action.payload.roles;
+            state.name = action.payload.name;
             localStorage.setItem('buiildlinks-user', JSON.stringify(state))
         },
         signOut: state => {

@@ -70,7 +70,7 @@ const Login = () => {
         <>
             {create ?
                 (
-                    <Form method='post' className='flex items-center justify-center py-20' >
+                    <Form method='post' className='flex items-center justify-center py-12' >
                         <Card className="flex-1 flex flex-col min-w-72 sm:max-w-lg max-w-md py-6 sm:px-10 mx-4">
                             <h1 className='text-center text-3xl font-alfaSlabOne text-primary pb-3'>Register</h1>
                             <Input name="name" placeholder="Name" />

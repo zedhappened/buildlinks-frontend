@@ -3,6 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Restricted from "./components/Restricted";
 import AdminCategories from "./pages/admin/Categories/AdminCategories";
+import AdminColorCreate from "./pages/admin/Colors/AdminColorCreate";
+import AdminColors from "./pages/admin/Colors/AdminColors";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminOrders from "./pages/admin/Orders/AdminOrders";
 import AdminProducts from "./pages/admin/Products/AdminProducts";
@@ -53,6 +55,19 @@ const router = createBrowserRouter([
             {
                 path: "products",
                 element: <AdminProducts />,
+            },
+            {
+                path: "colors",
+                children: [
+                    {
+                        index: true,
+                        element: <AdminColors />,
+                    },
+                    {
+                        path: "create",
+                        element: <AdminColorCreate />,
+                    }
+                ]
             },
             {
                 path: "categories",

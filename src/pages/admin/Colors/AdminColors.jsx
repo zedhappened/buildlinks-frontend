@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
-import { colorGetAPI } from "../../../api/api";
+import { colorDeleteAPI, colorGetAPI } from "../../../api/api";
 import Button from "../../../components/button/Button";
 import AdminColorCard from "../../../components/card/AdminColorCard";
 import SearchBox from "../../../components/input/SearchBox";
@@ -15,14 +15,29 @@ import SearchBox from "../../../components/input/SearchBox";
 export const adminColorLoader = async ({ params, request }) => {
   const url = new URL(request.url);
   const page = url.searchParams.get("page");
+  let search = url.searchParams.get("search");
 
   try {
-    const response = await colorGetAPI(page > 1 ? page : 1);
+    const response = await colorGetAPI(page > 1 ? page : 1, search);
     return { ...response.data };
   } catch (error) {
     throw new Response("", { status: 500, statusText: error.message });
   }
 };
+
+export const adminColorAction = async ({ params, request }) => {
+  const formData = await request.formData();
+  const entries = Object.fromEntries(formData);
+  switch (request.method) {
+    case "DELETE": {
+      await colorDeleteAPI(entries.id);
+      return { error: false };
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
+}
 
 const AdminColors = () => {
   const { colors, pages } = useLoaderData();
@@ -35,7 +50,7 @@ const AdminColors = () => {
         </p>
       </div>
       <div className="flex flex-row px-2 md:px-8 gap-2 md:gap-4 lg:gap-8 border-y-2 bg-neutral">
-        <SearchBox className="basis-4/5" />
+        <SearchBox defaultValue={searchParams.get("search") ?? ""} className="basis-4/5" />
         <Link className="basis-1/5 flex" to={"create"}>
           <Button className="hidden md:block btn-primary flex-1">
             Add Color

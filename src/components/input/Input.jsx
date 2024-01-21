@@ -5,6 +5,7 @@ const Input = (props) => {
     <input
       readOnly={props.readOnly}
       value={props.value}
+      defaultValue={props.defaultValue}
       onChange={props.onChange}
       name={props.name}
       type={props.type ?? "text"}

@@ -1,13 +1,27 @@
 import React, { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 import Input from "../../../components/input/Input";
 import Card from "../../../components/card/Card";
 import Button from "../../../components/button/Button";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 import FileInput from "../../../components/input/FileInput";
-import { colorCreateAPI } from "../../../api/api";
+import { colorCreateAPI, colorGetByIdAPI } from "../../../api/api";
 import ColorCard from "../../../components/card/ColorCard";
+
+export const adminColorCreateLoader = async ({ params, request }) => {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+  if (id) {
+    try {
+      const { data } = await colorGetByIdAPI(id);
+      return { color: data, error: false };
+    } catch (error) {
+      return { error: true, message: error.message }
+    }
+  }
+  return { error: false }
+}
 
 export const adminColorCreateAction = async ({ params, request }) => {
   const formData = await request.formData();
@@ -23,8 +37,10 @@ export const adminColorCreateAction = async ({ params, request }) => {
 };
 
 const AdminColorCreate = () => {
-  const [colorName, setColorName] = useState("");
-  const [colorImage, setColorImage] = useState("");
+  const { color } = useLoaderData();
+
+  const [colorName, setColorName] = useState(color.colorName ?? "");
+  const [colorImage, setColorImage] = useState(color.colorImage ?? "");
 
   const fileChangedHandler = async (e) => {
     var fileInput = false;
@@ -71,11 +87,13 @@ const AdminColorCreate = () => {
                   }}
                   placeholder="Color Name"
                   required={true}
+                  defaultValue={color.colorName ?? ""}
                 />
                 <Input
                   required={true}
                   name="colorCode"
                   placeholder="Color Code"
+                  defaultValue={color.colorCode ?? ""}
                 />
                 <Input
                   readOnly={true}

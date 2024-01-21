@@ -16,6 +16,7 @@ const SearchBox = (props) => {
         type="text"
         placeholder="Search"
         name="search"
+        defaultValue={props.defaultValue}
       />
       <button className="basis-1/12">
         <FontAwesomeIcon icon={faSearch} />

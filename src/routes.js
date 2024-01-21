@@ -3,8 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Restricted from "./components/Restricted";
 import AdminCategories from "./pages/admin/Categories/AdminCategories";
-import AdminColorCreate, { adminColorCreateAction } from "./pages/admin/Colors/AdminColorCreate";
-import AdminColors, { adminColorLoader } from "./pages/admin/Colors/AdminColors";
+import AdminColorCreate, { adminColorCreateAction, adminColorCreateLoader } from "./pages/admin/Colors/AdminColorCreate";
+import AdminColors, { adminColorAction, adminColorLoader } from "./pages/admin/Colors/AdminColors";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminOrders from "./pages/admin/Orders/AdminOrders";
 import AdminProducts from "./pages/admin/Products/AdminProducts";
@@ -63,10 +63,12 @@ const router = createBrowserRouter([
                         index: true,
                         element: <AdminColors />,
                         loader: adminColorLoader,
+                        action: adminColorAction,
                     },
                     {
                         path: "create",
                         element: <AdminColorCreate />,
+                        loader: adminColorCreateLoader,
                         action: adminColorCreateAction,
                     }
                 ]

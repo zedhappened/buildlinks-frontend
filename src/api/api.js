@@ -13,4 +13,7 @@ export const signInAPI = (data) => backend.post(`/user/sign-in`, data);
 export const signUpAPI = (data) => backend.post(`/user/sign-up`, data);
 
 export const colorCreateAPI = (data) => backend.post(`/color`, data);
-export const colorGetAPI = (page) => backend.get(`/color/${page}`);
+export const colorEditAPI = (id, data) => backend.patch(`/color/${id}`, data);
+export const colorGetByIdAPI = (id) => backend.get(`/color/${id}`);
+export const colorGetAPI = (page, search) => backend.get(`/color?search=${search}&page=${page}`);
+export const colorDeleteAPI = (id) => backend.delete(`/color/${id}`);

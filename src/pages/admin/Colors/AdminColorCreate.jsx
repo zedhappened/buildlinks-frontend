@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Form, useLoaderData } from "react-router-dom";
-import Input from "../../../components/input/Input";
-import Card from "../../../components/card/Card";
-import Button from "../../../components/button/Button";
 import Resizer from "react-image-file-resizer";
+import { Form, useLoaderData, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import FileInput from "../../../components/input/FileInput";
-import { colorCreateAPI, colorGetByIdAPI } from "../../../api/api";
+import { colorCreateAPI, colorEditAPI, colorGetByIdAPI } from "../../../api/api";
+import Button from "../../../components/button/Button";
+import Card from "../../../components/card/Card";
 import ColorCard from "../../../components/card/ColorCard";
+import FileInput from "../../../components/input/FileInput";
+import Input from "../../../components/input/Input";
 
 export const adminColorCreateLoader = async ({ params, request }) => {
   const url = new URL(request.url);
@@ -27,20 +27,40 @@ export const adminColorCreateAction = async ({ params, request }) => {
   const formData = await request.formData();
   const entries = Object.fromEntries(formData);
 
-  try {
-    const response = await colorCreateAPI(entries);
-    return { ...response.data };
-  } catch (error) {
-    toast.error(error.response.data.message);
-    return { error: true };
+  switch (request.method) {
+    case "POST": {
+      try {
+        const response = await colorCreateAPI(entries);
+        return { ...response.data };
+      } catch (error) {
+        toast.error(error.response.data.message);
+        return { error: true };
+      }
+    }
+    case "PATCH": {
+      try {
+        const response = await colorEditAPI(entries.id, entries);
+        return { ...response.data };
+      } catch (error) {
+        toast.error(error.response.data.message);
+        return { error: true };
+      }
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
   }
 };
 
 const AdminColorCreate = () => {
   const { color } = useLoaderData();
 
-  const [colorName, setColorName] = useState(color.colorName ?? "");
-  const [colorImage, setColorImage] = useState(color.colorImage ?? "");
+  const [colorName, setColorName] = useState(color?.colorName ?? "");
+  const [colorImage, setColorImage] = useState(color?.colorImage ?? "");
+
+  // eslint-disable-next-line
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get('id');
 
   const fileChangedHandler = async (e) => {
     var fileInput = false;
@@ -77,7 +97,7 @@ const AdminColorCreate = () => {
       </div>
       <div className="flex justify-center">
         <Card className="flex-1 max-w-2xl my-8">
-          <Form method="post" className="px-2 py-4 md:px-8 flex flex-col gap-4">
+          <Form method={id ? "PATCH" : "POST"} className="px-2 py-4 md:px-8 flex flex-col gap-4">
             <div className="flex flex-row gap-2 sm:gap-4">
               <div className="basis-2/3 md:basis-1/2 flex flex-col">
                 <Input
@@ -87,13 +107,13 @@ const AdminColorCreate = () => {
                   }}
                   placeholder="Color Name"
                   required={true}
-                  defaultValue={color.colorName ?? ""}
+                  defaultValue={color?.colorName ?? ""}
                 />
                 <Input
                   required={true}
                   name="colorCode"
                   placeholder="Color Code"
-                  defaultValue={color.colorCode ?? ""}
+                  defaultValue={color?.colorCode ?? ""}
                 />
                 <Input
                   readOnly={true}
@@ -108,7 +128,7 @@ const AdminColorCreate = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <Button className="btn-primary w-48">Submit</Button>
+              <Button name="id" value={id} className="btn-primary w-48">Submit</Button>
             </div>
           </Form>
         </Card>

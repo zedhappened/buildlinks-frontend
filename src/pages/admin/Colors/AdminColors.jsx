@@ -11,6 +11,7 @@ import { colorDeleteAPI, colorGetAPI } from "../../../api/api";
 import Button from "../../../components/button/Button";
 import AdminColorCard from "../../../components/card/AdminColorCard";
 import SearchBox from "../../../components/input/SearchBox";
+import { toast } from "react-toastify";
 
 export const adminColorLoader = async ({ params, request }) => {
   const url = new URL(request.url);
@@ -31,6 +32,8 @@ export const adminColorAction = async ({ params, request }) => {
   switch (request.method) {
     case "DELETE": {
       await colorDeleteAPI(entries.id);
+      console.log("deleted")
+      toast.success("Deleted Successfully")
       return { error: false };
     }
     default: {

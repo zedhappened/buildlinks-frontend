@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import Restricted from "./components/Restricted";
-import AdminCategories from "./pages/admin/Categories/AdminCategories";
+import AdminCategories, { adminCategoriesAction, adminCategoriesLoader } from "./pages/admin/Categories/AdminCategories";
 import AdminColorCreate, { adminColorCreateAction, adminColorCreateLoader } from "./pages/admin/Colors/AdminColorCreate";
 import AdminColors, { adminColorAction, adminColorLoader } from "./pages/admin/Colors/AdminColors";
 import Dashboard from "./pages/admin/Dashboard";
@@ -13,6 +13,7 @@ import Spinner from "./pages/spinner";
 import Categories from "./pages/user/Categories";
 import Home from "./pages/user/Home";
 import Login, { loginAction } from "./pages/user/Login";
+import AdminCategoryCreate, { adminCategoryCreateAction, adminCategoryCreateLoader } from "./pages/admin/Categories/AdminCategoryCreate";
 
 const ErrorPage = React.lazy(() => import("./pages/error-page"));
 const UserLayout = React.lazy(() => import("./layouts/UserLayout"));
@@ -75,7 +76,20 @@ const router = createBrowserRouter([
             },
             {
                 path: "categories",
-                element: <AdminCategories />,
+                children: [
+                    {
+                        index: true,
+                        element: <AdminCategories />,
+                        loader: adminCategoriesLoader,
+                        action: adminCategoriesAction,
+                    },
+                    {
+                        path: "create",
+                        element: <AdminCategoryCreate />,
+                        loader: adminCategoryCreateLoader,
+                        action: adminCategoryCreateAction,
+                    }
+                ],
             },
             {
                 path: "settings",

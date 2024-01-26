@@ -17,3 +17,8 @@ export const colorEditAPI = (id, data) => backend.patch(`/color/${id}`, data);
 export const colorGetByIdAPI = (id) => backend.get(`/color/${id}`);
 export const colorGetAPI = (page, search) => backend.get(`/color?search=${search}&page=${page}`);
 export const colorDeleteAPI = (id) => backend.delete(`/color/${id}`);
+
+export const categoryCreateAPI = (data) => backend.post(`/category`, data);
+export const categoryGetAPI = (page, search) => backend.get(`/category?search=${search}&page=${page}`);
+export const categoryGetAllAPI = () => backend.get(`/category/all`);
+export const categoryGetParentsAPI = () => backend.get(`/category/parents`);

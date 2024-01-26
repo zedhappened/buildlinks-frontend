@@ -88,6 +88,7 @@ const AdminColorCreate = () => {
       }
     }
   };
+
   return (
     <>
       <div className="flex h-24 justify-center items-center border-b-2">
@@ -98,7 +99,7 @@ const AdminColorCreate = () => {
       <div className="flex justify-center">
         <Card className="flex-1 max-w-2xl my-8">
           <Form method={id ? "PATCH" : "POST"} className="px-2 py-4 md:px-8 flex flex-col gap-4">
-            <div className="flex flex-row gap-2 sm:gap-4">
+            <div className="flex flex-row gap-2 sm:gap-4 pt-8">
               <div className="basis-2/3 md:basis-1/2 flex flex-col">
                 <Input
                   name="colorName"

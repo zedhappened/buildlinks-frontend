@@ -1,22 +1,21 @@
 import {
-  faAngleLeft,
-  faAngleRight,
-  faExclamationTriangle,
-  faPlus,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { colorDeleteAPI, colorGetAPI } from "../../../api/api";
 import Button from "../../../components/button/Button";
 import AdminColorCard from "../../../components/card/AdminColorCard";
 import SearchBox from "../../../components/input/SearchBox";
-import { toast } from "react-toastify";
+import NoResourceFound from "../../../components/util/NoResourceFound";
+import PaginationBar from "../../../components/util/PaginationBar";
 
 export const adminColorLoader = async ({ params, request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page")) || 1;
-  let searchValue = url.searchParams.get("search") || "";
+  const searchValue = url.searchParams.get("search") || "";
 
   try {
     const response = await colorGetAPI(page, searchValue);
@@ -67,14 +66,7 @@ const AdminColors = () => {
       </div>
 
       {colors.length === 0 ? (
-        <div className="flex flex-col justify-center items-center py-20">
-          <h1 className="font-bold text-6xl py-2 text-primary">
-            <FontAwesomeIcon icon={faExclamationTriangle} />
-          </h1>
-          <p className="font-roboto text-black text-2xl font-bold text-center px-4">
-            No Colors Found.
-          </p>
-        </div>
+        <NoResourceFound resource={"Colors"} />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-8">
           {colors.map((color) => (
@@ -84,40 +76,8 @@ const AdminColors = () => {
           ))}
         </div>
       )}
-      <div className="flex flex-row-reverse px-2 md:px-8 gap-2 md:gap-4 lg:gap-8 border-y-2 bg-neutral">
-        <div className="flex flex-row-reverse gap-2">
-          <Button
-            onClick={() => {
-              setSearchParams({
-                page: currentPage + 1,
-                search: searchValue,
-              });
-            }}
-            className={
-              "btn-secondary w-20" +
-              (currentPage >= pages ? " opacity-60 pointer-events-none" : "")
-            }
-          >
-            <FontAwesomeIcon icon={faAngleRight} />
-          </Button>
-          <Button
-            onClick={() => {
-              setSearchParams({
-                page: currentPage - 1,
-                search: searchValue,
-              });
-            }}
-            className={
-              "btn-secondary w-20" +
-              (currentPage > 1 ? "" : " opacity-60 pointer-events-none")
-            }
-          >
-            <FontAwesomeIcon icon={faAngleLeft} />
-          </Button>
-        </div>
-        <div className="flex items-center">Pages: {pages}</div>
-        <div className="flex items-center">Current Page: {currentPage}</div>
-      </div>
+
+      <PaginationBar setSearchParams={setSearchParams} searchValue={searchValue} currentPage={currentPage} pages={pages} />
     </>
   );
 };

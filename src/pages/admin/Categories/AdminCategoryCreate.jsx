@@ -1,11 +1,165 @@
-import React from "react";
+import React, { useState } from "react";
+import Resizer from "react-image-file-resizer";
+import { Form, useLoaderData, useSearchParams } from "react-router-dom";
+import { categoryCreateAPI, categoryGetParentsAPI } from "../../../api/api";
+import Button from "../../../components/button/Button";
+import Card from "../../../components/card/Card";
+import Dropdown from "../../../components/input/Dropdown";
+import FileInput from "../../../components/input/FileInput";
+import Input from "../../../components/input/Input";
+import Textbox from "../../../components/input/Textbox";
+import Checkbox from "../../../components/input/Checkbox";
+import { toast } from "react-toastify";
 
-export const adminCategoryCreateLoader = async ({ params, request }) => {};
+export const adminCategoryCreateLoader = async ({ params, request }) => {
 
-export const adminCategoryCreateAction = async ({ params, request }) => {};
+  const { data: parentCategories } = await categoryGetParentsAPI();
+
+  return { category: {}, categories: parentCategories };
+};
+
+export const adminCategoryCreateAction = async ({ params, request }) => {
+  const formData = await request.formData();
+  const entries = Object.fromEntries(formData);
+
+  if (entries.showOnNavbar === "on") {
+    entries.showOnNavbar = true;
+  }
+  if (entries.showOnHome === "on") {
+    entries.showOnHome = true;
+  }
+  if (entries.parent === "") {
+    entries.parent = null;
+  }
+
+  switch (request.method) {
+    case "POST": {
+      try {
+        const response = await categoryCreateAPI(entries);
+        return { ...response.data };
+      } catch (error) {
+        toast.error(error.response.data.message);
+        return { error: true };
+      }
+    }
+    case "PATCH": {
+      try {
+        const response = {}
+        return { ...response.data };
+      } catch (error) {
+        toast.error(error.response.data.message);
+        return { error: true };
+      }
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
+};
 
 const AdminCategoryCreate = () => {
-  return <div>AdminCategoryCreate</div>;
+
+  const { category, categories } = useLoaderData();
+
+  const [image, setImage] = useState(category.image || "");
+
+  // eslint-disable-next-line
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get('id');
+
+  const fileChangedHandler = async (e) => {
+    var fileInput = false;
+    if (e.target.files[0]) {
+      fileInput = true;
+    }
+    if (fileInput) {
+      try {
+        Resizer.imageFileResizer(
+          e.target.files[0],
+          96,
+          192,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            setImage(uri);
+          },
+          "base64",
+          48,
+          96
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  return (
+    <>
+      <div className="flex h-24 justify-center items-center border-b-2">
+        <p className="text-3xl md:text-4xl font-alfaSlabOne text-primary">
+          Add Category
+        </p>
+      </div>
+      <div className="flex justify-center">
+        <Card className="flex-1 max-w-2xl my-8">
+          <Form method={id ? "PATCH" : "POST"} className="px-2 py-4 md:px-8 flex flex-col gap-4">
+
+            <div className="md:basis-1/2 flex flex-col pt-8 lg:px-8">
+
+              <div className="flex flex-col sm:flex-row sm:gap-2 ">
+                <Input
+                  name="name"
+                  placeholder="Category Name"
+                  required={true}
+                  defaultValue={category?.name ?? ""}
+                  className="sm:basis-1/2"
+                />
+                <Dropdown
+                  name="parent"
+                  defaultSelected={category.parent || ""}
+                  className="sm:basis-1/2"
+                  options={categories}
+                  placeholder="Parent Category"
+                />
+              </div>
+
+              <Input
+                readOnly={true}
+                name="image"
+                value={image}
+                className="hidden"
+              />
+              <FileInput onChange={fileChangedHandler} />
+              <Textbox
+                name="description"
+                placeholder="Description"
+                defaultValue={category.description || ""}
+              />
+
+              <div className="flex flex-row sm:gap-2 ">
+                <Checkbox
+                  label={"Show on Navbar"}
+                  name="showOnNavbar"
+                  className="basis-1/2"
+                />
+                <Checkbox
+                  label={"Show on Home"}
+                  name="showOnHome"
+                  className="basis-1/2"
+                />
+              </div>
+
+            </div>
+
+            <div className="flex justify-center">
+              <Button name="id" value={id} className="btn-primary w-48">Submit</Button>
+            </div>
+          </Form>
+        </Card>
+      </div>
+    </>
+  );
 };
 
 export default AdminCategoryCreate;

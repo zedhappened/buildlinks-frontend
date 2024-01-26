@@ -3,8 +3,8 @@ import React from 'react'
 const Dropdown = (props) => {
     return (
         <select
-            defaultChecked={props.defaultChecked}
             name={props.name}
+            defaultValue={props.defaultValue}
             className={
                 "my-2 border bg-white border-secondary rounded-sm shadow-inner px-3 py-2 text-sm " +
                 props.className

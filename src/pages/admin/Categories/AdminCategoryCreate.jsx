@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { Form, useLoaderData, useSearchParams } from "react-router-dom";
-import { categoryCreateAPI, categoryGetParentsAPI } from "../../../api/api";
+import { toast } from "react-toastify";
+import { categoryCreateAPI, categoryGetByIdAPI, categoryGetParentsAPI } from "../../../api/api";
 import Button from "../../../components/button/Button";
 import Card from "../../../components/card/Card";
+import Checkbox from "../../../components/input/Checkbox";
 import Dropdown from "../../../components/input/Dropdown";
 import FileInput from "../../../components/input/FileInput";
 import Input from "../../../components/input/Input";
 import Textbox from "../../../components/input/Textbox";
-import Checkbox from "../../../components/input/Checkbox";
-import { toast } from "react-toastify";
 
 export const adminCategoryCreateLoader = async ({ params, request }) => {
 
-  const { data: parentCategories } = await categoryGetParentsAPI();
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
 
-  return { category: {}, categories: parentCategories };
+  try {
+    const { data: parentCategories } = await categoryGetParentsAPI();
+
+    if (id) {
+      const { data: category } = await categoryGetByIdAPI(id);
+      return { category, categories: parentCategories };
+    }
+    
+    return { category: {}, categories: parentCategories };
+  } catch (error) {
+    throw new Response("", { status: 500, statusText: error.message });
+  }
 };
 
 export const adminCategoryCreateAction = async ({ params, request }) => {
@@ -76,8 +88,8 @@ const AdminCategoryCreate = () => {
       try {
         Resizer.imageFileResizer(
           e.target.files[0],
-          96,
           192,
+          240,
           "JPEG",
           100,
           0,
@@ -85,8 +97,8 @@ const AdminCategoryCreate = () => {
             setImage(uri);
           },
           "base64",
-          48,
-          96
+          192,
+          240
         );
       } catch (err) {
         console.log(err);
@@ -117,7 +129,7 @@ const AdminCategoryCreate = () => {
                 />
                 <Dropdown
                   name="parent"
-                  defaultSelected={category.parent || ""}
+                  defaultValue={category.parent || ""}
                   className="sm:basis-1/2"
                   options={categories}
                   placeholder="Parent Category"
@@ -142,11 +154,13 @@ const AdminCategoryCreate = () => {
                   label={"Show on Navbar"}
                   name="showOnNavbar"
                   className="basis-1/2"
+                  defaultChecked={category.showOnNavbar}
                 />
                 <Checkbox
                   label={"Show on Home"}
                   name="showOnHome"
                   className="basis-1/2"
+                  defaultChecked={category.showOnHome}
                 />
               </div>
 

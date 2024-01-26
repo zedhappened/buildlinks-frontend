@@ -19,6 +19,7 @@ export const colorGetAPI = (page, search) => backend.get(`/color?search=${search
 export const colorDeleteAPI = (id) => backend.delete(`/color/${id}`);
 
 export const categoryCreateAPI = (data) => backend.post(`/category`, data);
+export const categoryGetByIdAPI = (id) => backend.get(`/category/${id}`);
 export const categoryGetAPI = (page, search) => backend.get(`/category?search=${search}&page=${page}`);
 export const categoryGetAllAPI = () => backend.get(`/category/all`);
 export const categoryGetParentsAPI = () => backend.get(`/category/parents`);

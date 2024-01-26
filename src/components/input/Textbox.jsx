@@ -3,6 +3,7 @@ import React from 'react'
 const Textbox = (props) => {
     return (
         <textarea
+            rows={props.rows || 4}
             readOnly={props.readOnly}
             value={props.value}
             defaultValue={props.defaultValue}

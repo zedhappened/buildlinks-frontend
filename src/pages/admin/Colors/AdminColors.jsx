@@ -1,6 +1,4 @@
-import {
-  faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
@@ -31,7 +29,6 @@ export const adminColorAction = async ({ params, request }) => {
   switch (request.method) {
     case "DELETE": {
       await colorDeleteAPI(entries.id);
-      console.log("deleted");
       toast.success("Deleted Successfully");
       return { error: false };
     }
@@ -68,7 +65,7 @@ const AdminColors = () => {
       {colors.length === 0 ? (
         <NoResourceFound resource={"Colors"} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 p-8">
           {colors.map((color) => (
             <div className="flex justify-center" key={color._id}>
               <AdminColorCard color={color} />
@@ -77,7 +74,12 @@ const AdminColors = () => {
         </div>
       )}
 
-      <PaginationBar setSearchParams={setSearchParams} searchValue={searchValue} currentPage={currentPage} pages={pages} />
+      <PaginationBar
+        setSearchParams={setSearchParams}
+        searchValue={searchValue}
+        currentPage={currentPage}
+        pages={pages}
+      />
     </>
   );
 };

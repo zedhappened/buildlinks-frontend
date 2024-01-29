@@ -2,15 +2,15 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { categoryDeleteAPI, categoryGetAPI } from "../../../api/api";
 import Button from "../../../components/button/Button";
+import AdminCategoryCard from "../../../components/card/AdminCategoryCard";
 import SearchBox from "../../../components/input/SearchBox";
 import NoResourceFound from "../../../components/util/NoResourceFound";
 import PaginationBar from "../../../components/util/PaginationBar";
-import { categoryGetAPI } from "../../../api/api";
-import AdminCategoryCard from "../../../components/card/AdminCategoryCard";
 
 export const adminCategoriesLoader = async ({ params, request }) => {
-
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page")) || 1;
   const searchValue = url.searchParams.get("search") || "";
@@ -23,7 +23,20 @@ export const adminCategoriesLoader = async ({ params, request }) => {
   }
 };
 
-export const adminCategoriesAction = async ({ params, request }) => { };
+export const adminCategoriesAction = async ({ params, request }) => {
+  const formData = await request.formData();
+  const entries = Object.fromEntries(formData);
+  switch (request.method) {
+    case "DELETE": {
+      await categoryDeleteAPI(entries.id);
+      toast.success("Deleted Successfully");
+      return { error: false };
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
+};
 
 const AdminCategories = () => {
   const { categories, pages } = useLoaderData();
@@ -53,17 +66,24 @@ const AdminCategories = () => {
       {categories.length === 0 ? (
         <NoResourceFound resource={"Categories"} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 py-8 px-2">
           {categories.map((category) => (
             <div className="flex justify-center" key={category._id}>
-              <AdminCategoryCard category={category} parent={categories.find((c) => c._id === category.parent)} />
+              <AdminCategoryCard
+                category={category}
+                parent={categories.find((c) => c._id === category.parent)}
+              />
             </div>
           ))}
         </div>
       )}
 
-      <PaginationBar setSearchParams={setSearchParams} searchValue={searchValue} currentPage={currentPage} pages={pages} />
-
+      <PaginationBar
+        setSearchParams={setSearchParams}
+        searchValue={searchValue}
+        currentPage={currentPage}
+        pages={pages}
+      />
     </>
   );
 };

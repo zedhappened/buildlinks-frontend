@@ -12,12 +12,19 @@ const AdminColorCard = ({ color }) => {
       </div>
       <div className="basis-5/12 bg-neutral">
         <div className="flex flex-row">
-          <div method="patch" className="basis-1/2 py-1 text-center shadow-inner text-secondary border">
+          <div
+            method="patch"
+            className="basis-1/2 py-1 text-center shadow-inner text-secondary border"
+          >
             <Link to={`create?id=${color._id}`}>
               <FontAwesomeIcon icon={faEdit} />
             </Link>
           </div>
-          <Form replace method="delete" className="basis-1/2 py-1 text-center shadow-inner text-primary border">
+          <Form
+            replace
+            method="delete"
+            className="basis-1/2 py-1 text-center shadow-inner text-primary border"
+          >
             <button name="id" value={color._id} type="submit">
               <FontAwesomeIcon icon={faTrash} />
             </button>
